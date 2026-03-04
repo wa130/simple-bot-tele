@@ -1,5 +1,6 @@
 import "dotenv/config";
 import TelegramBot from "node-telegram-bot-api";
+import { register, cekUser } from "./lib/register.js";
 
 const token = process.env.TELE_TOKEN;
 
@@ -10,11 +11,13 @@ async function startBot() {
     const text = msg.text;
     const chatId = msg.chat.id;
 
+
     const prefix = "/";
     const isCmd = text.startsWith(prefix);
     const cuy = text.slice(1).trim();
     const args = cuy.split(" ");
     const command = args.shift().toLowerCase();
+
 
     if (!isCmd) return;
 
@@ -77,13 +80,44 @@ async function startBot() {
           });
         }
         break;
+
+      case "register":
+        {
+            if (!args[0]) {
+                const cek = cekUser(msg.from.id); 
+
+                if (cek === true) {
+                    bot.sendMessage(chatId, 'nama wajib di isi!')
+                    return true
+                } else {
+                    bot.sendMessage(chatId, 'anda sudah kedaftar brokkk!')
+                    return false
+                }
+            }
+
+          const name = args[0];
+          const reg = register(name, msg.from.id)
+        
+          if (reg === true) {
+            bot.sendMessage(
+              chatId,
+              `berhasil terdaftar\n\nname : ${name}\nid : ${msg.from.id}`,
+            );
+          } else {
+            bot.sendMessage(
+              chatId,
+              "maaf terjadi kesalahan, gagal saat mendaftar",
+            );
+          }
+        
+        }
+        break;
+
       case "tes":
         {
           bot.sendMessage(chatId, "testing berhasil");
         }
         break;
-
-      
 
       default:
         break;
