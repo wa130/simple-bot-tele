@@ -12,6 +12,7 @@
   "type": "module",
   "dependencies": {
     "dotenv": "^17.3.1",
+    "json-db-engine": "^1.0.0",
     "node-telegram-bot-api": "^0.67.0"
   }
 }
