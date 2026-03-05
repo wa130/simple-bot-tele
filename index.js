@@ -23,6 +23,15 @@ async function startBot() {
     const args = cuy.split(" ");
     const command = args.shift().toLowerCase();
 
+    // =============================== \\
+    const isRegister = cekUser()
+
+    function msgUnregisterUser() {
+      bot.sendMessage(chatId,
+        'Maaf Kamu Belum Terdaftar nihh!'
+      )
+    }
+
 
     if (!isCmd) return;
 
@@ -119,6 +128,9 @@ async function startBot() {
         break;
 
       case 'listuser': {
+        if (!isRegister) {
+          return msgUnregisterUser()
+        }
         const list = listUser()
         const listNama = list.map((n, i) => `${i+1}. ${n}`).join('\n')
         const total = totalUser()
