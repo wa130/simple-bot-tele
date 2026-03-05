@@ -1,6 +1,11 @@
 import "dotenv/config";
 import TelegramBot from "node-telegram-bot-api";
-import { register, cekUser } from "./lib/register.js";
+import {
+    register,
+    cekUser,
+    listUser,
+    totalUser
+   } from "./lib/register.js";
 
 const token = process.env.TELE_TOKEN;
 
@@ -112,6 +117,19 @@ async function startBot() {
         
         }
         break;
+
+      case 'listuser': {
+        const list = listUser()
+        const listNama = list.map((n, i) => `${i+1}. ${n}`).join('\n')
+        const total = totalUser()
+        
+
+        bot.sendMessage(chatId,
+           `[  List User  ]\n\nTotal user :  ${total}\n\n${listNama}`,
+          
+        )
+      }
+      break
 
       case "tes":
         {
