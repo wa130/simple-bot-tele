@@ -23,12 +23,26 @@ async function startBot() {
     const args = cuy.split(" ");
     const command = args.shift().toLowerCase();
 
+    //============ [ config ] ============\\
+    const owner = 77324772230;
+    const ownerName = 'Nasyuwa'
+
     // =============================== \\
     const isRegister = cekUser()
+    const isOwner = msg.from.id === owner
 
+
+    //============ [ msg ] ===============\\
     function msgUnregisterUser() {
       bot.sendMessage(chatId,
         'Maaf Kamu Belum Terdaftar nihh!'
+      )
+    }
+
+    function msgNotOwner() {
+      bot.sendMessage(
+        chatId,
+        `[  FITUR KHUSUS OWNER !  ]\n\nMaaf kamu bukan owner!\n\n_________________________________________!`
       )
     }
 
@@ -128,8 +142,8 @@ async function startBot() {
         break;
 
       case 'listuser': {
-        if (!isRegister) {
-          return msgUnregisterUser()
+        if (!isOwner) {
+          return msgNotOwner()
         }
         const list = listUser()
         const listNama = list.map((n, i) => `${i+1}. ${n}`).join('\n')
@@ -139,6 +153,15 @@ async function startBot() {
         bot.sendMessage(chatId,
            `[  List User  ]\n\nTotal user :  ${total}\n\n${listNama}`,
           
+        )
+      }
+      break
+
+      case 'cekid': {
+        const id = msg.from.id
+        bot.sendMessage(
+          chatId,
+          `id telegram kamuu  :   ${id}`
         )
       }
       break
